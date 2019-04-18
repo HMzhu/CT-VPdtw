@@ -1,0 +1,11 @@
+Package: CTWOS
+Type: Package
+Title: Scalable calibration transfer without standards via dynamic time warping for near-infrared spectroscopy
+Version: 3.4.4
+Date: 2019-03-19
+Depends: R (>= 3.0.0), chemometrics, R.matlab, rpart, graphics, Matrix, VPdtw, matlab
+Author: ZHuiMin,Zhimin Zhang
+Maintainer: ZHuiMin<ZHuiMin@csu.cn>
+Description: Scalable calibration transfer without standards via dynamic time warping for near-infrared spectroscopy
+License: LGPL version 2 or newer
+LazyData: TRUE

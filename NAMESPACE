@@ -1,0 +1,3 @@
+import("R.matlab", "rpart", "chemometrics", "graphics", "matlab", "Matrix", "VPdtw")
+exportPattern("autoscale", "corn", "CTWOS", "KennardStone", "meancenter", "plscv", "plspredtest", "pretreat", "RMSEP", "savgol", "snv", "wheat")
+
