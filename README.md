@@ -3,14 +3,13 @@ A convenient algorithm for calibration transfer without standards via dynamic ti
 # Installation
 
 ## Before running this algorithm, Please install the package in R directly using the commands:
-
-install.packages("devtools")
-
+install Rtools(https://cran.r-project.org/bin/windows/Rtools/);
+install.packages("devtools");
+library(devtools); 
 devtools::install_github("david-clifford/VPdtw")
 
 ## Intall using devtools from github:
 
-library(devtools); 
 install_github("HMzhu/CTWOS")
 
 ## Install the downloaded packages from local zip or tar.gz file:
