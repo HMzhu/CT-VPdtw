@@ -7,7 +7,7 @@ Before running this algorithm, Please install the package in R directly using th
 install.packages("devtools")
 devtools::install_github("david-clifford/VPdtw")
 
-Intall using devtools from github"
+Intall using devtools from github:
 
 library(devtools); 
 install_github("HMzhu/CTWOS")
