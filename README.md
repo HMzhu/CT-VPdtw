@@ -5,6 +5,7 @@ A convenient algorithm for calibration transfer without standards via dynamic ti
 Before running this algorithm, Please install the package in R directly using the commands:
 
 install.packages("devtools")
+
 devtools::install_github("david-clifford/VPdtw")
 
 Intall using devtools from github:
