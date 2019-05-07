@@ -8,7 +8,7 @@ Scalable calibration transfer without standards
 Scalable calibration transfer without standards via dynamic time warping for near-infrared spectroscopy
 }
 \usage{
-CTWOS (MX,Y,SX,ytest,width,order,deriv,span,A0)
+CTWOS (MX,Y,SX,ytest,width,order,deriv,span,S,A0)
 }
 \arguments{
   \item{MX}{master spectra,n x p matrix(Sample matrix)}
@@ -18,7 +18,8 @@ CTWOS (MX,Y,SX,ytest,width,order,deriv,span,A0)
   \item{width}{the optional variables specifying the number of points in filter}
   \item{order}{the order of the polynomial}
   \item{deriv}{the derivative}
-  \item{span}{the width of the moving window, integer. We recommend using a dilation to form a penalty for use in VPdtw. A dilation is a moving local maximum over a window of specific fixed width specified by span.}
+  \item{span}{a range of the width of the moving window, integer. We recommend using a dilation to form a penalty for use in VPdtw. A dilation is a moving local maximum over a window of specific fixed width specified by span.}
+  \item{S}{a range of the scale parameter be used to scale the penalty vector}
   \item{A0}{The maximal number of latent variables for cross-validation}
 }
 \details{
@@ -43,8 +44,9 @@ width=21
 order=2
 deriv=2
 span=5
+S=1
 A0=20
-result <- CTWOS (MX,Y,SX,ytest,width,order,deriv,span,A0)
+result <- CTWOS (MX,Y,SX,ytest,width,order,deriv,span,S,A0)
 RMSEP=result$RMSEP
 }
 \keyword{ CTWOS }
