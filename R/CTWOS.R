@@ -1,5 +1,5 @@
 
-CTWOS <- function (MX,Y,SX,ytest,width,order,deriv,span,A0) {
+CTWOS <- function (MX,Y,SX,ytest,width,order,deriv,span,S,A0) {
   result <- savgol (MX,width,order,deriv)
   D=result$D
   my.hat=MX%*%D
@@ -16,19 +16,30 @@ CTWOS <- function (MX,Y,SX,ytest,width,order,deriv,span,A0) {
   a = a
   h<-matrix(data=NA,n,m-20)
   for (i in 1:n){
-    z<-matrix(data=0,span,m-20)
-    distance<-vector(mode="numeric",length=span)
+    z<-array(data=0,dim=c(span,S,m-20))
+    distance<-matrix(data=NA,span,S)
     for (e in 1:span){
-      b = my1.hat[i,]-min(hb)
-      b = b
-      x = seq(1, length(a))
-      result <- VPdtw(reference=a,query=b, penalty=dilation(a,e)/1,maxshift=80)
-      distance[e]<-sum(abs((result$warpedQuery[11:(m-10)])-a[11:(m-10)]))
-      z[e,]<-result$warpedQuery[11:(m-10)]+rep(min(hb),times=m-20)
+      for (f in 1:S){
+        b = my1.hat[i,]-min(hb)
+        b = b
+        x = seq(1, length(a))
+        result <- VPdtw(reference=a,query=b, penalty=dilation(a,e)/S,maxshift=80)
+        distance[e,f]<-sum(abs((result$warpedQuery[11:(m-10)])-a[11:(m-10)]))
+        z[e,f,]<-result$warpedQuery[11:(m-10)]+rep(min(hb),times=m-20)
+      }
     }
     ind<-which.min(distance)
-    query<-z[ind,]
-    h[i,]<-query
+    if (ind%%span!=0){
+      col<-(ind%/%span)+1
+      row<-ind%%span
+      query<-z[row,col,]
+      h[i,]=query
+    }else{
+      col<-(ind%/%span)
+      row<-ind%/%col
+      query<-z[row,col,]
+      h[i,]=query
+    }
   }
   h=as.matrix(h)
   #########################################################################3333
@@ -53,22 +64,31 @@ CTWOS <- function (MX,Y,SX,ytest,width,order,deriv,span,A0) {
   Q=matrix(Q,nrow=A)
   ##########??????ģ????###################################################################
   xn2=nrow(sy1.rest)
-  distancea<-vector(mode="numeric",length=0)
   g<-matrix(data=NA,xn2,m-20)
   for (i in 1:xn2){
-    z<-matrix(data=0,span,m-20)
-    distance<-vector(mode="numeric",length=span)
+    v<-array(data=0,dim=c(span,S,m-20))
+    distance<-matrix(data=NA,span,S)
     for (e in 1:span){
-      b = sy1.rest[i,]-min(hb)
-      b = b
-      x = seq(1, length(a))
-      result <- VPdtw(reference=a,query=b, penalty=dilation(a,e)/1,maxshift=80)
-      distance[e]<-sum(abs((result$warpedQuery[11:(m-10)])-a[11:(m-10)]))
-      z[e,]<-result$warpedQuery[11:(m-10)]+rep(min(hb),times=m-20)
+      for (f in 1:S){
+        b = sy1.rest[i,]-min(hb)
+        x = seq(1, length(a))
+        result <- VPdtw(reference=a,query=b, penalty=dilation(a,e)/S,maxshift=80)
+        distance[e,f]<-sum(abs((result$warpedQuery[11:(m-10)])-a[11:(m-10)]))
+        z[e,f,]<-result$warpedQuery[11:(m-10)]+rep(min(hb),times=m-20)
+      }
     }
     ind<-which.min(distance)
-    query<-z[ind,]
-    g[i,]<-query
+    if (ind%%span!=0){
+      col<-(ind%/%span)+1
+      row<-ind%%span
+      query<-z[row,col,]
+      g[i,]=query
+    }else{
+      col<-(ind%/%span)
+      row<-ind%/%col
+      query<-z[row,col,]
+      g[i,]=query
+    }
   }
   g1<-snv (g)
   Xtext<-g1
@@ -84,3 +104,5 @@ CTWOS <- function (MX,Y,SX,ytest,width,order,deriv,span,A0) {
   result<-list(RMSEP=RMSEP,Q2=Q2,ypred=ypred)
   return(result)
 }
+
+
